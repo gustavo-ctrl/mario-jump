@@ -1,26 +1,25 @@
 const mario = document.querySelector('.mario');
 const pipe = document.querySelector('.pipe');
 const scoreBoard = document.querySelector('.score');
-const gameOverScreen = document.querySelector('.game-over');
-const restartBtn = document.querySelector('#restartBtn');
 
 let score = 0;
 let gameOver = false;
 
+// PULO
 const jump = () => {
-    if (mario.classList.contains('jump') || gameOver) return;
+    if (mario.classList.contains('jump')) return;
 
     mario.classList.add('jump');
 
     setTimeout(() => {
         mario.classList.remove('jump');
-    }, 850);
+    }, 500);
 };
 
 document.addEventListener('keydown', jump);
 
-// LOOP DO JOGO
-let loop = setInterval(() => {
+// LOOP DO JOGO (colisão + pontuação)
+const loop = setInterval(() => {
 
     const pipePosition = pipe.offsetLeft;
     const marioPosition = +window.getComputedStyle(mario).bottom.replace('px', '');
@@ -37,11 +36,7 @@ let loop = setInterval(() => {
         mario.src = "./imagens/game-over.png";
 
         gameOver = true;
-
         clearInterval(loop);
-
-        // mostra tela de game over
-        gameOverScreen.style.display = 'flex';
     }
 
     // PONTUAÇÃO
@@ -51,8 +46,3 @@ let loop = setInterval(() => {
     }
 
 }, 10);
-
-// RESTART
-restartBtn.addEventListener('click', () => {
-    location.reload();
-});
