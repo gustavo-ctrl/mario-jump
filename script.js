@@ -1,48 +1,62 @@
 const mario = document.querySelector('.mario');
-const pipe = document.querySelector('.pipe');
+const pipes = document.querySelectorAll('.pipe');
 const scoreBoard = document.querySelector('.score');
+const gameOverScreen = document.querySelector('.game-over');
+const restartBtn = document.querySelector('#restartBtn');
 
 let score = 0;
 let gameOver = false;
 
-// PULO
+/* PULO */
 const jump = () => {
-    if (mario.classList.contains('jump')) return;
+    if (mario.classList.contains('jump') || gameOver) return;
 
     mario.classList.add('jump');
 
     setTimeout(() => {
         mario.classList.remove('jump');
-    }, 500);
+    }, 850);
 };
 
 document.addEventListener('keydown', jump);
 
-// LOOP DO JOGO (colisão + pontuação)
-const loop = setInterval(() => {
+/* LOOP DO JOGO */
+let loop = setInterval(() => {
 
-    const pipePosition = pipe.offsetLeft;
     const marioPosition = +window.getComputedStyle(mario).bottom.replace('px', '');
 
-    // COLISÃO
-    if (pipePosition < 120 && pipePosition > 0 && marioPosition < 80) {
+    pipes.forEach((pipe) => {
 
-        pipe.style.animation = 'none';
-        pipe.style.left = `${pipePosition}px`;
+        const pipePosition = pipe.offsetLeft;
 
-        mario.style.animation = 'none';
-        mario.style.bottom = `${marioPosition}px`;
+        /* COLISÃO */
+        if (pipePosition < 120 && pipePosition > 0 && marioPosition < 80) {
 
-        mario.src = "./imagens/game-over.png";
+            pipe.style.animation = 'none';
+            pipe.style.left = `${pipePosition}px`;
 
-        gameOver = true;
-        clearInterval(loop);
-    }
+            mario.style.animation = 'none';
+            mario.style.bottom = `${marioPosition}px`;
 
-    // PONTUAÇÃO
-    if (pipePosition < 0 && !gameOver) {
-        score++;
-        scoreBoard.innerHTML = score;
-    }
+            mario.src = "./imagens/game-over.png";
+
+            gameOver = true;
+            clearInterval(loop);
+
+            gameOverScreen.style.display = 'flex';
+        }
+
+        /* PONTUAÇÃO */
+        if (pipePosition < 0 && !gameOver) {
+            score++;
+            scoreBoard.innerHTML = score;
+        }
+
+    });
 
 }, 10);
+
+/* RESTART */
+restartBtn.addEventListener('click', () => {
+    location.reload();
+});

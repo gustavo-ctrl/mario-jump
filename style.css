@@ -4,48 +4,102 @@
     box-sizing: border-box;
 }
 
-.game-board {
-    width: 800px;
-    height: 500px;
-    border: 2px solid #333;
-    margin: 0 auto;
+html, body {
+    width: 100%;
+    height: 100%;
     overflow: hidden;
+    font-family: Arial;
+}
+
+/* ÁREA DO JOGO */
+.game-board {
+    width: 100vw;
+    height: 100vh;
     position: relative;
+    overflow: hidden;
     background: linear-gradient(#87CEEB, #e0f6ff);
 }
 
 /* SCORE */
 .score {
     position: absolute;
-    top: 10px;
+    top: 20px;
     left: 20px;
-    font-size: 30px;
-    font-family: Arial;
-}
-
-/* PIPE */
-.pipe {
-    position: absolute;
-    bottom: 0;
-    width: 80px;
-    right: -80px;
-    animation: pipe-animation 2s linear infinite;
+    font-size: 32px;
+    z-index: 10;
 }
 
 /* MARIO */
 .mario {
     position: absolute;
     bottom: 0;
-    width: 120px;
+    width: 110px;
+    left: 50px;
+}
+
+/* PIPE 1 */
+.pipe {
+    position: absolute;
+    bottom: 0;
+    width: 60px;
+    right: -80px;
+    animation: pipe-move 2s linear infinite;
+}
+
+/* PIPE 2 */
+.pipe2 {
+    right: -300px;
+    animation: pipe-move 2.8s linear infinite;
 }
 
 /* JUMP */
 .jump {
-    animation: jump 500ms ease-out;
+    animation: jump 850ms ease-in-out;
+}
+
+/* NUVEM */
+.cloud {
+    position: absolute;
+    top: 80px;
+    width: 160px;
+    opacity: 0.7;
+}
+
+.cloud1 {
+    animation: cloud-move 25s linear infinite;
+}
+
+/* GAME OVER */
+.game-over {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    display: none;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 999;
+}
+
+.game-over-img {
+    width: 300px;
+    margin-bottom: 20px;
+}
+
+.game-over button {
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
 }
 
 /* ANIMAÇÕES */
-@keyframes pipe-animation {
+@keyframes pipe-move {
     from {
         right: -80px;
     }
@@ -54,10 +108,22 @@
     }
 }
 
+@keyframes cloud-move {
+    from {
+        right: -200px;
+    }
+    to {
+        right: 100%;
+    }
+}
+
 @keyframes jump {
     0% { bottom: 0; }
-    40% { bottom: 180px; }
-    50% { bottom: 180px; }
-    60% { bottom: 180px; }
+
+    25% { bottom: 170px; }
+    45% { bottom: 230px; }
+
+    65% { bottom: 230px; }
+
     100% { bottom: 0; }
 }
