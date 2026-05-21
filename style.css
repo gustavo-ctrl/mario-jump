@@ -18,7 +18,7 @@ html, body {
   overflow: hidden;
 }
 
-/* PERSONAGEM */
+/* PLAYER */
 #player {
   width: 50px;
   height: 50px;
@@ -35,4 +35,29 @@ html, body {
   background: green;
   position: absolute;
   bottom: 0;
+}
+
+/* GAME OVER */
+.hidden {
+  display: none;
+}
+
+#gameOver {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  z-index: 10;
+}
+
+#gameOver button {
+  padding: 10px 20px;
+  font-size: 20px;
+  cursor: pointer;
 }

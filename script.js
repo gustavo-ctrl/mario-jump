@@ -1,10 +1,14 @@
 const player = document.getElementById("player");
+const gameOverScreen = document.getElementById("gameOver");
+const restartBtn = document.getElementById("restartBtn");
 
 let isJumping = false;
 let position = 100;
 let gravity = 5;
 let jumpLimit = 180;
+let gameOver = false;
 
+/* PULO */
 document.addEventListener("keydown", (e) => {
   if (e.code === "Space") {
     jump();
@@ -12,7 +16,7 @@ document.addEventListener("keydown", (e) => {
 });
 
 function jump() {
-  if (isJumping) return;
+  if (isJumping || gameOver) return;
 
   isJumping = true;
 
@@ -35,3 +39,20 @@ function jump() {
     player.style.bottom = position + "px";
   }, 20);
 }
+
+/* GAME OVER */
+function endGame() {
+  gameOver = true;
+  gameOverScreen.classList.remove("hidden");
+}
+
+/* REINICIAR */
+restartBtn.addEventListener("click", () => {
+  position = 100;
+  player.style.bottom = position + "px";
+
+  gameOver = false;
+  isJumping = false;
+
+  gameOverScreen.classList.add("hidden");
+});
