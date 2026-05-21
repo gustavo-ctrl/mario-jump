@@ -1,13 +1,34 @@
-<div class="game-board">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mario Jump</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 
-    <img src="./imagens/mario.gif" class="mario">
-    <img src="./imagens/pipe.png" class="pipe">
+<body>
 
-    <h1 class="score">0</h1>
+  <div id="game">
 
-    <div class="game-over">
-        <h1>Game Over</h1>
-        <button id="restartBtn">Reiniciar</button>
+    <!-- NUVENS -->
+    <div class="cloud cloud1"></div>
+    <div class="cloud cloud2"></div>
+
+    <!-- PLAYER -->
+    <div id="player"></div>
+
+    <!-- CHÃO -->
+    <div id="ground"></div>
+
+    <!-- GAME OVER -->
+    <div id="gameOver" class="hidden">
+      <h1>Game Over</h1>
+      <button id="restartBtn">Tentar novamente</button>
     </div>
 
-</div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
