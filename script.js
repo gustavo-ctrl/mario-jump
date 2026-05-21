@@ -20,13 +20,13 @@ function jump() {
 
   isJumping = true;
 
-  let upInterval = setInterval(() => {
+  let up = setInterval(() => {
     if (position >= jumpLimit) {
-      clearInterval(upInterval);
+      clearInterval(up);
 
-      let downInterval = setInterval(() => {
+      let down = setInterval(() => {
         if (position <= 100) {
-          clearInterval(downInterval);
+          clearInterval(down);
           isJumping = false;
         }
 
