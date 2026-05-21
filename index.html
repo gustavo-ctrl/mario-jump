@@ -1,39 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="style.css">
-
-    <title>Mario Jump</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mario Jump</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+  <div id="game">
+    <div id="player"></div>
+    <div id="ground"></div>
+  </div>
 
-<div class="game-board">
-
-    <!-- NUVEM -->
-    <img src="./imagens/clouds.png" class="cloud cloud1">
-
-    <!-- MARIO -->
-    <img src="./imagens/mario.gif" class="mario">
-
-    <!-- OBSTÁCULOS -->
-    <img src="./imagens/pipe.png" class="pipe">
-    <img src="./imagens/pipe.png" class="pipe pipe2">
-
-    <!-- SCORE -->
-    <h1 class="score">0</h1>
-
-    <!-- GAME OVER -->
-    <div class="game-over">
-        <img src="./imagens/game-over.png" class="game-over-img">
-        <button id="restartBtn">Reiniciar</button>
-    </div>
-
-</div>
-
-<script src="script.js" defer></script>
-
+  <script src="script.js"></script>
 </body>
 </html>
