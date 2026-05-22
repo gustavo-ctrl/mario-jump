@@ -1,122 +1,131 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-.game{
+html, body {
     width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial;
+}
+
+/* ÁREA DO JOGO */
+.game-board {
+    width: 100vw;
     height: 100vh;
-    border-bottom: 30px solid green;
-    margin: 0 auto;
     position: relative;
     overflow: hidden;
-    background: linear-gradient(#87CEEB, #E0F6FF);
+    background: linear-gradient(#87CEEB, #e0f6ff);
 }
 
-button {
-    background: green;
-    color: white;
-    font-weight: bold;
-    font-size: 1.5rem;
-    border: none;
-    padding: 1rem;
+/* SCORE */
+.score {
     position: absolute;
-    right: 50vw;
-    top: 50vh;
-    cursor: pointer;
-    z-index: 1;
-}
-button:hover {
-    border: 2px solid green;
-    background: none;
-    color: green;
+    top: 20px;
+    left: 20px;
+    font-size: 32px;
+    z-index: 10;
 }
 
-.game-over {
-    width: 100%;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.322);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    position: fixed;
-    top: 0;
-    left: 0;
-}
-.game-over h1 {
-    font-size: 3rem;
-    color: red;
-    text-align: center;
-    margin-top: 15rem;
+/* MARIO */
+.mario {
+    position: absolute;
+    bottom: 0;
+    width: 110px;
+    left: 50px;
 }
 
+/* PIPE 1 */
 .pipe {
     position: absolute;
     bottom: 0;
+    width: 60px;
     right: -80px;
-    width: 80px;
+    animation: pipe-move 2s linear infinite;
 }
 
-.mario{
-    width: 150px;
+/* PIPE 2 */
+.pipe2 {
     position: absolute;
     bottom: 0;
+    right: -300px;
+    animation: pipe-move 3.2s linear infinite;
 }
 
-.clouds {
-    width: 550px;
+/* JUMP */
+.jump {
+    animation: jump 850ms ease-in-out;
+}
+
+/* NUVEM */
+.cloud {
+    position: absolute;
+    top: 80px;
+    width: 160px;
+    opacity: 0.7;
+}
+
+.cloud1 {
+    animation: cloud-move 25s linear infinite;
+}
+
+/* GAME OVER */
+.game-over {
     position: absolute;
     top: 0;
-    animation: clouds-animation 20s infinite linear;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    display: none;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 999;
 }
 
-@keyframes clouds-animation {
-    from {
-        right: -550px;
-    }
-    to {
-        right: 100%;
-    }
+.game-over-img {
+    width: 300px;
+    margin-bottom: 20px;
 }
 
-.pipe-animation {
-    animation: pipe-animation 2s infinite linear;
+.game-over button {
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
 }
 
-@keyframes pipe-animation {
+/* ANIMAÇÕES */
+@keyframes pipe-move {
     from {
         right: -80px;
     }
-
     to {
         right: 100%;
     }
 }
 
-.jump {
-    animation: jump 800ms ease-out;
+@keyframes cloud-move {
+    from {
+        right: -200px;
+    }
+    to {
+        right: 100%;
+    }
 }
 
 @keyframes jump {
-    0% {
-        bottom:0;
-    }
+    0% { bottom: 0; }
 
-    40% {
-        bottom: 200px;
-    }
+    25% { bottom: 180px; }
+    45% { bottom: 240px; }
 
-    50% {
-        bottom: 200px;
-    }
+    65% { bottom: 220px; }
 
-    60% {
-        bottom: 200px;
-    }
-
-    100% {
-        bottom: 0;
-    }
+    100% { bottom: 0; }
 }

@@ -1,103 +1,62 @@
-const mario = document.querySelector('.mario')
-const pipe = document.querySelector('.pipe')
+const mario = document.querySelector('.mario');
+const pipes = document.querySelectorAll('.pipe');
+const scoreBoard = document.querySelector('.score');
+const gameOverScreen = document.querySelector('.game-over');
+const restartBtn = document.querySelector('#restartBtn');
 
-const start = document.querySelector('.start')
-const gameOver = document.querySelector('.game-over')
+let score = 0;
+let gameOver = false;
 
-audioStart = new Audio('./src/audio/audio_theme.mp3')
-audioGameOver = new Audio('./src/audio/audio_gameover.mp3')
-
-
-const startGame = () => {
-  pipe.classList.add('pipe-animation')
-  start.style.display = 'none'
-
-  // audio
-  audioStart.play()
-}
-
-const restartGame = () => {
-  gameOver.style.display = 'none'
-  pipe.style.left = ''
-  pipe.style.right = '0'
-  mario.src = './src/img/mario.gif'
-  mario.style.width = '150px'
-  mario.style.bottom = '0'
-
-  start.style.display = 'none'
-
-  audioGameOver.pause()
-  audioGameOver.currentTime = 0;
-
-  audioStart.play()
-  audioStart.currentTime = 0;
-
-}
-
+/* PULO */
 const jump = () => {
-  mario.classList.add('jump')
+    if (mario.classList.contains('jump') || gameOver) return;
 
-  setTimeout(() => {
-    mario.classList.remove('jump')
-  }, 800)
-}
+    mario.classList.add('jump');
 
-const loop = () => {
-  setInterval(() => {
-    const pipePosition = pipe.offsetLeft
-    const marioPosition = window
-      .getComputedStyle(mario)
-      .bottom.replace('px', ' ')
+    setTimeout(() => {
+        mario.classList.remove('jump');
+    }, 850);
+};
 
-    if (pipePosition <= 120 && pipePosition > 0 && marioPosition < 80) {
-      pipe.classList.remove('.pipe-animation')
-      pipe.style.left = `${pipePosition}px`
+document.addEventListener('keydown', jump);
 
-      mario.classList.remove('.jump')
-      mario.style.bottom = `${marioPosition}px`
+/* LOOP DO JOGO */
+let loop = setInterval(() => {
 
-      mario.src = './src/img/game-over.png'
-      mario.style.width = '80px'
-      mario.style.marginLeft = '50px'
-      
-      
-      function stopAudioStart() {
-        audioStart.pause()
-      }
-      stopAudioStart()
-      
-      audioGameOver.play()
-      
-      function stopAudio() {
-        audioGameOver.pause()
-      }
-      setTimeout(stopAudio, 7000)
-      
-      gameOver.style.display = 'flex'
-      
-      clearInterval(loop)
-    }
-  }, 10)
-}
+    const marioPosition = +window.getComputedStyle(mario).bottom.replace('px', '');
 
-loop()
+    pipes.forEach((pipe) => {
 
-document.addEventListener('keypress', e => {
-  const tecla = e.key
-  if (tecla === ' ') {
-    jump()
-  }
-})
+        const pipePosition = pipe.offsetLeft;
 
-document.addEventListener('touchstart', e => {
-  if (e.touches.length) {
-    jump() 
-  }
-})
+        /* COLISÃO */
+        if (pipePosition < 120 && pipePosition > 0 && marioPosition < 80) {
 
-document.addEventListener('keypress', e => {
-  const tecla = e.key
-  if (tecla === 'Enter') {
-    startGame()
-  }
-})
+            pipe.style.animation = 'none';
+            pipe.style.left = `${pipePosition}px`;
+
+            mario.style.animation = 'none';
+            mario.style.bottom = `${marioPosition}px`;
+
+            mario.src = "./imagens/game-over.png";
+
+            gameOver = true;
+            clearInterval(loop);
+
+            gameOverScreen.style.display = 'flex';
+        }
+
+        /* PONTUAÇÃO */
+        if (pipePosition < 0 && !gameOver) {
+            score++;
+            scoreBoard.innerHTML = score;
+        }
+
+    });
+
+}, 10);
+
+/* RESTART */
+restartBtn.addEventListener('click', () => {
+    location.reload();
+});
