@@ -6,6 +6,7 @@ const restartBtn = document.querySelector('#restartBtn');
 
 let score = 0;
 let gameOver = false;
+let scoredPipes = new Set();
 
 /* PULO */
 const jump = () => {
@@ -18,10 +19,17 @@ const jump = () => {
     }, 850);
 };
 
+/* TECLADO + TOQUE (CELULAR) */
 document.addEventListener('keydown', jump);
+document.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    jump();
+});
 
 /* LOOP DO JOGO */
 let loop = setInterval(() => {
+
+    if (gameOver) return;
 
     const marioPosition = +window.getComputedStyle(mario).bottom.replace('px', '');
 
@@ -46,9 +54,10 @@ let loop = setInterval(() => {
             gameOverScreen.style.display = 'flex';
         }
 
-        /* PONTUAÇÃO */
-        if (pipePosition < 0 && !gameOver) {
+        /* PONTUAÇÃO (SEM BUG) */
+        if (pipePosition < 0 && !scoredPipes.has(pipe)) {
             score++;
+            scoredPipes.add(pipe);
             scoreBoard.innerHTML = score;
         }
 
@@ -56,7 +65,7 @@ let loop = setInterval(() => {
 
 }, 10);
 
-/* RESTART */
+/* REINICIAR */
 restartBtn.addEventListener('click', () => {
     location.reload();
 });
