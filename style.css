@@ -11,24 +11,12 @@ html, body {
     font-family: Arial;
 }
 
-/* FUNDO CENTRALIZADO */
+/* ÁREA DO JOGO (MAIOR COMO ANTES) */
 .game-board {
     width: 100vw;
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(#87CEEB, #e0f6ff);
-}
-
-/* ÁREA DO JOGO */
-.game-area {
     position: relative;
-    width: 900px;
-    height: 500px;
     overflow: hidden;
-    border: 3px solid #333;
-    border-radius: 10px;
     background: linear-gradient(#87CEEB, #e0f6ff);
 }
 
@@ -45,15 +33,15 @@ html, body {
 .mario {
     position: absolute;
     bottom: 0;
-    width: 90px;
+    width: 110px;
     left: 50px;
 }
 
-/* PIPES */
+/* PIPE */
 .pipe {
     position: absolute;
     bottom: 0;
-    width: 50px;
+    width: 60px;
     right: -80px;
     animation: pipe-move 2s linear infinite;
 }
@@ -63,7 +51,7 @@ html, body {
     animation: pipe-move 3.2s linear infinite;
 }
 
-/* NUVENS */
+/* NUVEM */
 .cloud {
     position: absolute;
     top: 80px;

@@ -18,17 +18,12 @@ const jump = () => {
     }, 850);
 };
 
-/* SOMENTE TECLA ESPAÇO (PC) */
+/* TECLA ESPAÇO */
 document.addEventListener('keydown', (e) => {
     if (e.code === 'Space') {
         e.preventDefault();
         jump();
     }
-});
-
-/* EVITA SCROLL NO ESPAÇO */
-window.addEventListener('keydown', (e) => {
-    if (e.code === 'Space') e.preventDefault();
 });
 
 /* LOOP DO JOGO */
@@ -58,11 +53,18 @@ let loop = setInterval(() => {
             gameOverScreen.style.display = 'flex';
         }
 
-        /* PONTUAÇÃO */
-        if (pipeLeft < 0 && !pipe.scored) {
-            score++;
-            pipe.scored = true;
-            scoreBoard.innerHTML = score;
+        /* 🔥 PONTUAÇÃO CORRIGIDA */
+        if (pipeLeft < 0) {
+            if (!pipe.dataset.counted) {
+                score++;
+                pipe.dataset.counted = "true";
+                scoreBoard.innerHTML = score;
+            }
+        }
+
+        /* 🔁 RESET DO PIPE (IMPORTANTE) */
+        if (pipeLeft > window.innerWidth) {
+            pipe.dataset.counted = "";
         }
 
     });
