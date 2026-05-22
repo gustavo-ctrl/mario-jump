@@ -6,7 +6,6 @@ const restartBtn = document.querySelector('#restartBtn');
 
 let score = 0;
 let gameOver = false;
-let scoredPipes = new Set();
 
 /* PULO */
 const jump = () => {
@@ -19,11 +18,17 @@ const jump = () => {
     }, 850);
 };
 
-/* TECLADO + TOQUE (CELULAR) */
-document.addEventListener('keydown', jump);
-document.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    jump();
+/* SOMENTE TECLA ESPAÇO (PC) */
+document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') {
+        e.preventDefault();
+        jump();
+    }
+});
+
+/* EVITA SCROLL NO ESPAÇO */
+window.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') e.preventDefault();
 });
 
 /* LOOP DO JOGO */
@@ -31,33 +36,32 @@ let loop = setInterval(() => {
 
     if (gameOver) return;
 
-    const marioPosition = +window.getComputedStyle(mario).bottom.replace('px', '');
+    const marioBottom = parseInt(window.getComputedStyle(mario).bottom);
 
     pipes.forEach((pipe) => {
 
-        const pipePosition = pipe.offsetLeft;
+        const pipeLeft = pipe.offsetLeft;
 
         /* COLISÃO */
-        if (pipePosition < 120 && pipePosition > 0 && marioPosition < 80) {
-
-            pipe.style.animation = 'none';
-            pipe.style.left = `${pipePosition}px`;
-
-            mario.style.animation = 'none';
-            mario.style.bottom = `${marioPosition}px`;
-
-            mario.src = "./imagens/game-over.png";
+        if (pipeLeft < 120 && pipeLeft > 0 && marioBottom < 80) {
 
             gameOver = true;
             clearInterval(loop);
 
+            pipes.forEach(p => p.style.animation = 'none');
+
+            mario.style.animation = 'none';
+            mario.style.bottom = `${marioBottom}px`;
+
+            mario.src = "./imagens/game-over.png";
+
             gameOverScreen.style.display = 'flex';
         }
 
-        /* PONTUAÇÃO (SEM BUG) */
-        if (pipePosition < 0 && !scoredPipes.has(pipe)) {
+        /* PONTUAÇÃO */
+        if (pipeLeft < 0 && !pipe.scored) {
             score++;
-            scoredPipes.add(pipe);
+            pipe.scored = true;
             scoreBoard.innerHTML = score;
         }
 

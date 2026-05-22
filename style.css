@@ -9,10 +9,9 @@ html, body {
     height: 100%;
     overflow: hidden;
     font-family: Arial;
-    touch-action: none;
 }
 
-/* CENTRALIZA O JOGO */
+/* FUNDO CENTRALIZADO */
 .game-board {
     width: 100vw;
     height: 100vh;
@@ -22,15 +21,15 @@ html, body {
     background: linear-gradient(#87CEEB, #e0f6ff);
 }
 
-/* ÁREA DO JOGO (MENOR E RESPONSIVA) */
+/* ÁREA DO JOGO */
 .game-area {
     position: relative;
     width: 900px;
     height: 500px;
     overflow: hidden;
-    background: linear-gradient(#87CEEB, #e0f6ff);
     border: 3px solid #333;
     border-radius: 10px;
+    background: linear-gradient(#87CEEB, #e0f6ff);
 }
 
 /* SCORE */
@@ -64,7 +63,7 @@ html, body {
     animation: pipe-move 3.2s linear infinite;
 }
 
-/* NUVEM */
+/* NUVENS */
 .cloud {
     position: absolute;
     top: 80px;
