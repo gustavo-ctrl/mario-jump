@@ -4,6 +4,8 @@ const restartBtn = document.getElementById("restartBtn");
 
 let isJumping = false;
 let position = 100;
+let gravity = 5;
+let jumpLimit = 180;
 let gameOver = false;
 
 /* PULO */
@@ -19,7 +21,7 @@ function jump() {
   isJumping = true;
 
   let up = setInterval(() => {
-    if (position >= 180) {
+    if (position >= jumpLimit) {
       clearInterval(up);
 
       let down = setInterval(() => {
@@ -28,12 +30,12 @@ function jump() {
           isJumping = false;
         }
 
-        position -= 5;
+        position -= gravity;
         player.style.bottom = position + "px";
       }, 20);
     }
 
-    position += 5;
+    position += 6;
     player.style.bottom = position + "px";
   }, 20);
 }
