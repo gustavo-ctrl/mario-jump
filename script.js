@@ -1,62 +1,58 @@
-const mario = document.querySelector('.mario');
-const pipes = document.querySelectorAll('.pipe');
-const scoreBoard = document.querySelector('.score');
-const gameOverScreen = document.querySelector('.game-over');
-const restartBtn = document.querySelector('#restartBtn');
+const player = document.getElementById("player");
+const gameOverScreen = document.getElementById("gameOver");
+const restartBtn = document.getElementById("restartBtn");
 
-let score = 0;
+let isJumping = false;
+let position = 100;
+let gravity = 5;
+let jumpLimit = 180;
 let gameOver = false;
 
 /* PULO */
-const jump = () => {
-    if (mario.classList.contains('jump') || gameOver) return;
+document.addEventListener("keydown", (e) => {
+  if (e.code === "Space") {
+    jump();
+  }
+});
 
-    mario.classList.add('jump');
+function jump() {
+  if (isJumping || gameOver) return;
 
-    setTimeout(() => {
-        mario.classList.remove('jump');
-    }, 850);
-};
+  isJumping = true;
 
-document.addEventListener('keydown', jump);
+  let upInterval = setInterval(() => {
+    if (position >= jumpLimit) {
+      clearInterval(upInterval);
 
-/* LOOP DO JOGO */
-let loop = setInterval(() => {
-
-    const marioPosition = +window.getComputedStyle(mario).bottom.replace('px', '');
-
-    pipes.forEach((pipe) => {
-
-        const pipePosition = pipe.offsetLeft;
-
-        /* COLISÃO */
-        if (pipePosition < 120 && pipePosition > 0 && marioPosition < 80) {
-
-            pipe.style.animation = 'none';
-            pipe.style.left = `${pipePosition}px`;
-
-            mario.style.animation = 'none';
-            mario.style.bottom = `${marioPosition}px`;
-
-            mario.src = "./imagens/game-over.png";
-
-            gameOver = true;
-            clearInterval(loop);
-
-            gameOverScreen.style.display = 'flex';
+      let downInterval = setInterval(() => {
+        if (position <= 100) {
+          clearInterval(downInterval);
+          isJumping = false;
         }
 
-        /* PONTUAÇÃO */
-        if (pipePosition < 0 && !gameOver) {
-            score++;
-            scoreBoard.innerHTML = score;
-        }
+        position -= gravity;
+        player.style.bottom = position + "px";
+      }, 20);
+    }
 
-    });
+    position += 6;
+    player.style.bottom = position + "px";
+  }, 20);
+}
 
-}, 10);
+/* GAME OVER */
+function endGame() {
+  gameOver = true;
+  gameOverScreen.classList.remove("hidden");
+}
 
-/* RESTART */
-restartBtn.addEventListener('click', () => {
-    location.reload();
+/* REINICIAR */
+restartBtn.addEventListener("click", () => {
+  position = 100;
+  player.style.bottom = position + "px";
+
+  gameOver = false;
+  isJumping = false;
+
+  gameOverScreen.classList.add("hidden");
 });
