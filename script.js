@@ -1,58 +1,103 @@
-const player = document.getElementById("player");
-const gameOverScreen = document.getElementById("gameOver");
-const restartBtn = document.getElementById("restartBtn");
+const mario = document.querySelector('.mario')
+const pipe = document.querySelector('.pipe')
 
-let isJumping = false;
-let position = 100;
-let gravity = 5;
-let jumpLimit = 180;
-let gameOver = false;
+const start = document.querySelector('.start')
+const gameOver = document.querySelector('.game-over')
 
-/* PULO */
-document.addEventListener("keydown", (e) => {
-  if (e.code === "Space") {
-    jump();
-  }
-});
+audioStart = new Audio('./src/audio/audio_theme.mp3')
+audioGameOver = new Audio('./src/audio/audio_gameover.mp3')
 
-function jump() {
-  if (isJumping || gameOver) return;
 
-  isJumping = true;
+const startGame = () => {
+  pipe.classList.add('pipe-animation')
+  start.style.display = 'none'
 
-  let up = setInterval(() => {
-    if (position >= jumpLimit) {
-      clearInterval(up);
+  // audio
+  audioStart.play()
+}
 
-      let down = setInterval(() => {
-        if (position <= 100) {
-          clearInterval(down);
-          isJumping = false;
-        }
+const restartGame = () => {
+  gameOver.style.display = 'none'
+  pipe.style.left = ''
+  pipe.style.right = '0'
+  mario.src = './src/img/mario.gif'
+  mario.style.width = '150px'
+  mario.style.bottom = '0'
 
-        position -= gravity;
-        player.style.bottom = position + "px";
-      }, 20);
+  start.style.display = 'none'
+
+  audioGameOver.pause()
+  audioGameOver.currentTime = 0;
+
+  audioStart.play()
+  audioStart.currentTime = 0;
+
+}
+
+const jump = () => {
+  mario.classList.add('jump')
+
+  setTimeout(() => {
+    mario.classList.remove('jump')
+  }, 800)
+}
+
+const loop = () => {
+  setInterval(() => {
+    const pipePosition = pipe.offsetLeft
+    const marioPosition = window
+      .getComputedStyle(mario)
+      .bottom.replace('px', ' ')
+
+    if (pipePosition <= 120 && pipePosition > 0 && marioPosition < 80) {
+      pipe.classList.remove('.pipe-animation')
+      pipe.style.left = `${pipePosition}px`
+
+      mario.classList.remove('.jump')
+      mario.style.bottom = `${marioPosition}px`
+
+      mario.src = './src/img/game-over.png'
+      mario.style.width = '80px'
+      mario.style.marginLeft = '50px'
+      
+      
+      function stopAudioStart() {
+        audioStart.pause()
+      }
+      stopAudioStart()
+      
+      audioGameOver.play()
+      
+      function stopAudio() {
+        audioGameOver.pause()
+      }
+      setTimeout(stopAudio, 7000)
+      
+      gameOver.style.display = 'flex'
+      
+      clearInterval(loop)
     }
-
-    position += 6;
-    player.style.bottom = position + "px";
-  }, 20);
+  }, 10)
 }
 
-/* GAME OVER */
-function endGame() {
-  gameOver = true;
-  gameOverScreen.classList.remove("hidden");
-}
+loop()
 
-/* REINICIAR */
-restartBtn.addEventListener("click", () => {
-  position = 100;
-  player.style.bottom = position + "px";
+document.addEventListener('keypress', e => {
+  const tecla = e.key
+  if (tecla === ' ') {
+    jump()
+  }
+})
 
-  gameOver = false;
-  isJumping = false;
+document.addEventListener('touchstart', e => {
+  if (e.touches.length) {
+    jump() 
+  }
+})
 
-  gameOverScreen.classList.add("hidden");
-});
+document.addEventListener('keypress', e => {
+  const tecla = e.key
+  if (tecla === 'Enter') {
+    startGame()
+  }
+})
